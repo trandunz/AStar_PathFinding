@@ -20,7 +20,7 @@ sf::Vector2f m_MousePos;
 
 int main()
 {
-	CreateWindow(sf::Style::Default);
+	CreateWindow(sf::Style::Close + sf::Style::Titlebar);
 
 	Start();
 	Update();
@@ -47,14 +47,14 @@ void CreateWindow(sf::Uint32 _style)
 	sf::ContextSettings m_Settings;
 	m_Settings.antialiasingLevel = 8;
 
-	m_RenderWindow->create(sf::VideoMode(1010, 1010), "A* Pathfinding", _style, m_Settings);
+	m_RenderWindow->create(sf::VideoMode(1310, 1310), "A* Pathfinding", _style, m_Settings);
 	m_RenderWindow->setFramerateLimit(60);
 	m_RenderWindow->setVerticalSyncEnabled(true);
 	m_RenderWindow->setKeyRepeatEnabled(false);
 	m_RenderWindow->setMouseCursorVisible(true);
 
-	m_View = sf::View(sf::Vector2f((SIZE * 5) - 5, (SIZE * 5) - 5), sf::Vector2f(1010, 1010));
-	float zoomfactor = SIZE / 100.f;
+	m_View = sf::View(sf::Vector2f((SIZE * 5) - 5, (SIZE * 5) - 5), sf::Vector2f(1310, 1310));
+	float zoomfactor = SIZE / 130.f;
 	m_View.zoom(zoomfactor);
 	m_RenderWindow->setView(m_View);
 }

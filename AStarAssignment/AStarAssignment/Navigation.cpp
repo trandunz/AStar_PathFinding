@@ -42,7 +42,7 @@ void Navigation::Update(sf::Vector2f _mouserPos)
 			sf::Vector2i index = GetMousedOverTile(_mouserPos);
 			if (!m_Nodes[index.x][index.y].m_bDestination && !m_Nodes[index.x][index.y].m_bSource)
 			{
-				ChangeTileColour(index);
+				ChangeTileType(index);
 			}
 		}
 	}
@@ -58,7 +58,7 @@ void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 		}
 		else if (_event->key.code == sf::Keyboard::F1)
 		{
-			AStarTraversal(m_Nodes[16][16], m_Nodes[2][2]);
+			m_bEraser = !m_bEraser;
 		}
 	}
 	else if (_event->type == sf::Event::MouseButtonPressed)
@@ -110,26 +110,8 @@ void Navigation::Render()
 
 void Navigation::RenderShapes(int _i, int _j)
 {
-	if (m_Nodes[_i][_j].m_bTraversed)
-	{
-		m_Shapes[_i][_j].setFillColor(sf::Color::Blue);
-	}
-	if (m_Nodes[_i][_j].m_bSource)
-	{
-		m_Shapes[_i][_j].setFillColor(sf::Color::Cyan);
-	}
-	if (m_Nodes[_i][_j].m_bObstical)
-	{
-		m_Shapes[_i][_j].setFillColor(sf::Color::Red);
-	}
-	if (m_Nodes[_i][_j].m_bDestination)
-	{
-		m_Shapes[_i][_j].setFillColor(sf::Color::Magenta);
-	}
-	if (!m_Nodes[_i][_j].m_bObstical && !m_Nodes[_i][_j].m_bTraversed && !m_Nodes[_i][_j].m_bSource && !m_Nodes[_i][_j].m_bDestination)
-	{
-		m_Shapes[_i][_j].setFillColor(sf::Color::Transparent);
-	}
+	SetNodeColourToType(_i, _j);
+
 	m_RenderWindow->draw(m_Shapes[_i][_j]);
 }
 
@@ -170,13 +152,11 @@ void Navigation::Initnodes()
 		{
 			m_Nodes[i][j].m_Position = std::make_pair(i,j);
 
-			LoadTextWithFont(m_Nodes[i][j].m_FText, m_Font, sf::Color::Cyan);
-			LoadTextWithFont(m_Nodes[i][j].m_GText, m_Font, sf::Color::Cyan);
-			LoadTextWithFont(m_Nodes[i][j].m_HText, m_Font, sf::Color::Cyan);
+			LoadTextWithFont(m_Nodes[i][j].m_FText, m_Font, sf::Color::Black);
+			LoadTextWithFont(m_Nodes[i][j].m_GText, m_Font, sf::Color::Black);
+			LoadTextWithFont(m_Nodes[i][j].m_HText, m_Font, sf::Color::Black);
 		}
 	}
-
-	
 }
 
 void Navigation::InitShapes(int _i, int _j)
@@ -209,18 +189,18 @@ void Navigation::CalculatePath(Node& _destination)
 
 	while (!(m_Nodes[row][col].m_Parent.first == row && m_Nodes[row][col].m_Parent.second == col)) 
 	{
-		path.push(std::make_pair(row, col));
+		m_Path.push(std::make_pair(row, col));
 		int temp_row = m_Nodes[row][col].m_Parent.first;
 		int temp_col = m_Nodes[row][col].m_Parent.second;
 		row = temp_row;
 		col = temp_col;
 	}
 
-	path.push(std::make_pair(row, col));
-	while (!path.empty()) 
+	m_Path.push(std::make_pair(row, col));
+	while (!m_Path.empty()) 
 	{
-		std::pair<int, int> p = path.top();
-		path.pop();
+		std::pair<int, int> p = m_Path.top();
+		m_Path.pop();
 		m_Nodes[p.first][p.second].m_bTraversed = true;
 	}
 }
@@ -280,14 +260,11 @@ void Navigation::CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, 
 	int newG = 0;
 	int newF = 0;
 	int newH = 0;
-		// Only process this cell if this is a valid one
+
 	if (IsValid(_i + _offsetI, _j + _offsetJ) == true)
 	{
-		// If the destination cell is the same as the
-		// current successor
 		if (IsDestination(std::make_pair(_i + _offsetI, _j + _offsetJ), _destination.m_Position) == true)
 		{
-			// Set the Parent of the destination cell
 			m_Nodes[_i + _offsetI][_j + _offsetJ].m_Parent.first = _i;
 			m_Nodes[_i + _offsetI][_j + _offsetJ].m_Parent.second = _j;
 			CalculatePath(_destination);
@@ -295,28 +272,16 @@ void Navigation::CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, 
 			m_Nodes[_i + _offsetI][_j + _offsetJ].m_bDestination = true;
 			return;
 		}
-		// If the successor is already on the closed
-		// list or if it is blocked, then ignore it.
-		// Else do the following
 		else if (m_ClosedList[_i + _offsetI][_j + _offsetJ] == false && !IsBlocked(std::make_pair(_i + _offsetI, _j + _offsetJ)) == true)
 		{
 			newG = m_Nodes[_i][_j].G + 1.0;
 			newH = CalculateHValue(std::make_pair(_offsetI + _i, _offsetJ+ _j), _destination.m_Position);
 			newF = newG + newH;
 
-			// If it isn’t on the open list, add it to
-			// the open list. Make the current square
-			// the parent of this square. Record the
-			// f, g, and h costs of the square cell
-			//                OR
-			// If it is on the open list already, check
-			// to see if this path to that square is
-			// better, using 'f' cost as the measure.
 			if (m_Nodes[_offsetI + _i][_j + _offsetJ].F == INT_MAX || m_Nodes[_i + _offsetI][_j + _offsetJ].F > newF)
 			{
 				_openList.insert(std::make_pair(newF, std::make_pair(_i + _offsetI, _j + _offsetJ)));
 
-				// Update the details of this cell
 				m_Nodes[_i + _offsetI][_j + _offsetJ].F = newF;
 				m_Nodes[_i + _offsetI][_j + _offsetJ].G = newG;
 				m_Nodes[_i + _offsetI][_j + _offsetJ].H = newH;
@@ -342,11 +307,9 @@ bool Navigation::IsMouseOverTile(sf::Vector2f _mousePos)
 			if (m_Shapes[i][j].getGlobalBounds().contains(_mousePos))
 			{
 				return true;
-				break;
 			}
 		}
 	}
-
 	return false;
 }
 
@@ -358,38 +321,31 @@ sf::Vector2i Navigation::GetMousedOverTile(sf::Vector2f _mousePos)
 		{
 			if (m_Shapes[i][j].getGlobalBounds().contains(_mousePos))
 			{
-				std::cout << i << " - " << j << std::endl;
 				return sf::Vector2i(i,j);
-				break;
 			}
 		}
 	}
 }
 
-void Navigation::ChangeTileColour(sf::Vector2i _index)
+void Navigation::ChangeTileType(sf::Vector2i _index)
 {
-	m_Nodes[_index.x][_index.y].m_bObstical = true;
+	m_Nodes[_index.x][_index.y].m_bObstical = m_bEraser;
+	
 	if (m_Nodes[_index.x][_index.y].m_bSource)
 	{
 		m_Nodes[_index.x][_index.y].m_bSource = false;
 		m_SourceNode = nullptr;
 	}
 
-	m_Nodes[_index.x][_index.y].m_bTraversed = false;
-	m_Nodes[_index.x][_index.y].m_bDestination = false;
-	if (m_Nodes[_index.x][_index.y].m_bObstical)
-	{
-		m_Shapes[_index.x][_index.y].setFillColor(sf::Color::Red);
-	}
-	else
-	{
-		m_Shapes[_index.x][_index.y].setFillColor(sf::Color::Transparent);
-	}
+	SetNodeColourToType(_index.x, _index.y);
 }
 
 void Navigation::CleanupContainers()
 {
-	path = std::stack<std::pair<int, int>>();
+	// Path Stack Cleanup
+	m_Path = std::stack<std::pair<int, int>>();
+
+	// Node Value Reset
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
@@ -404,12 +360,38 @@ void Navigation::CleanupContainers()
 			m_Nodes[i][j].m_Parent = std::make_pair(-1, -1);
 		}
 	}
+
+	// Closed List Value Reset
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
 		{
 			m_ClosedList[i][j] = false;
 		}
+	}
+}
+
+void Navigation::SetNodeColourToType(int _i, int _j)
+{
+	if (m_Nodes[_i][_j].m_bTraversed)
+	{
+		m_Shapes[_i][_j].setFillColor(sf::Color::Green);
+	}
+	if (m_Nodes[_i][_j].m_bSource)
+	{
+		m_Shapes[_i][_j].setFillColor(sf::Color::Cyan);
+	}
+	if (m_Nodes[_i][_j].m_bObstical)
+	{
+		m_Shapes[_i][_j].setFillColor(sf::Color::Red);
+	}
+	if (m_Nodes[_i][_j].m_bDestination)
+	{
+		m_Shapes[_i][_j].setFillColor(sf::Color::Magenta);
+	}
+	if (!m_Nodes[_i][_j].m_bObstical && !m_Nodes[_i][_j].m_bTraversed && !m_Nodes[_i][_j].m_bSource && !m_Nodes[_i][_j].m_bDestination)
+	{
+		m_Shapes[_i][_j].setFillColor(sf::Color::Transparent);
 	}
 }
 

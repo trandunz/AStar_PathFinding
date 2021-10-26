@@ -3,7 +3,7 @@
 #include "NumptyBehavior.h"
 
 #define NODE_DIFFERENCE 10
-#define SIZE 100
+#define SIZE 40
 
 #include "node.h"
 
@@ -33,12 +33,14 @@ public:
 
 	bool IsMouseOverTile(sf::Vector2f _mousePos);
 	sf::Vector2i GetMousedOverTile(sf::Vector2f _mousePos);
-	void ChangeTileColour(sf::Vector2i _index);
+	void ChangeTileType(sf::Vector2i _index);
 
 	Node& GetSourceNode();
 	Node& GetDestinationNode();
 
 	void CleanupContainers();
+
+	void SetNodeColourToType(int _i, int _j);
 protected:
 	inline int CalculateHValue(std::pair<int, int> _node, std::pair<int, int> _destination)
 	{
@@ -81,14 +83,12 @@ protected:
 	}
 
 	Node m_Nodes[SIZE][SIZE]{};
-
-	bool m_bDebug = false;
-
+	std::stack<std::pair<int, int>> m_Path;
 	sf::RectangleShape m_Shapes[SIZE][SIZE];
-
 	bool m_ClosedList[SIZE][SIZE];
 
-	std::stack<std::pair<int, int>> path;
+	bool m_bDebug = false;
+	bool m_bEraser = false;
 
 	sf::Font m_Font;
 	sf::RenderWindow* m_RenderWindow = nullptr;

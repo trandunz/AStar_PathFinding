@@ -1,14 +1,15 @@
 ﻿  Navigation.cpp
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(187,42): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(190,117): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(190,64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(201,112): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(202,109): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(303,29): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(167,42): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(170,117): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(170,64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(181,112): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(182,109): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(277,29): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   main.cpp
   Generating code
-  Previous IPDB and IOBJ mismatch, fall back to full compilation.
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(367): warning C4715: 'Navigation::GetMousedOverTile': not all control paths return a value
-  All 349 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(328): warning C4715: 'Navigation::GetMousedOverTile': not all control paths return a value
+  30 of 335 functions ( 9.0%) were compiled, the rest were copied from previous compilation.
+    1 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   AStarAssignment.vcxproj -> C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\x64\Release\AStarAssignment.exe
