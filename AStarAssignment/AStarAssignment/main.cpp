@@ -70,8 +70,7 @@ void Update()
 	while (m_RenderWindow->isOpen())
 	{
 		m_MousePos = m_RenderWindow->mapPixelToCoords(sf::Mouse::getPosition(*m_RenderWindow), m_View);
-
-		m_Navigation->Update();
+		m_Navigation->Update(m_MousePos);
 
 		PolledUpdate();
 
@@ -88,29 +87,8 @@ void PolledUpdate()
 			m_RenderWindow->close();
 			break;
 		}
-		else if (m_Event->type == sf::Event::KeyPressed)
-		{
-			if (m_Event->key.code == sf::Keyboard::Tab)
-			{
-				m_Navigation->ToggleDebug();
-			}
-			else if (m_Event->key.code == sf::Keyboard::F1)
-			{
-				m_Navigation->AStarTraversal(m_Navigation->m_nodes[16][16], m_Navigation->m_nodes[2][2]);
-			}
 
-			break;
-		}
-		else if (m_Event->type == sf::Event::MouseButtonPressed)
-		{
-			if (m_Event->key.code == sf::Mouse::Left)
-			{
-				sf::Vector2i index = m_Navigation->GetMousedOverTile(m_MousePos);
-				m_Navigation->ChangeTileColour(index);
-			}
-
-			break;
-		}
+		m_Navigation->PolledUpdate(m_Event, m_MousePos);
 	}
 }
 
@@ -121,8 +99,8 @@ void Render()
 
 void CleanupPointers()
 {
-	NumptyBehavior::DeletePointer(m_RenderWindow);
-	m_RenderWindow = nullptr;
 	NumptyBehavior::DeletePointer(m_Navigation);
 	m_Navigation = nullptr;
+	NumptyBehavior::DeletePointer(m_RenderWindow);
+	m_RenderWindow = nullptr;
 }

@@ -1,9 +1,9 @@
 #pragma once
 #include "NumptyBehavior.h"
-class node : public NumptyBehavior
+class Node : public NumptyBehavior
 {
 public:
-	std::pair<int, int> m_Position{ 0 , 100 };
+	std::pair<int, int> m_Position{};
 
 	int F = INT_MAX;
 	int G = INT_MAX;
@@ -17,5 +17,7 @@ public:
 
 	bool m_bObstical = false;
 	bool m_bTraversed = false;
+	bool m_bSource = false;
+	bool m_bDestination = false;
 };
 

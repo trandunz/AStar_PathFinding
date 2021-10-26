@@ -3,7 +3,7 @@
 #include "NumptyBehavior.h"
 
 #define NODE_DIFFERENCE 10
-#define SIZE 20
+#define SIZE 100
 
 #include "node.h"
 
@@ -14,8 +14,8 @@ public:
 	~Navigation();
 
 	virtual void Start() override;
-	virtual void Update() override;
-	virtual void PolledUpdate() override;
+	virtual void Update(sf::Vector2f _mouserPos);
+	virtual void PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos);
 	virtual void Render() override;
 
 	void RenderShapes(int _i, int _j);
@@ -24,19 +24,22 @@ public:
 	void Initnodes();
 	void InitShapes(int _i, int _j);
 
-	void CalculatePath(node& _destination);
-	void AStarTraversal(node& _source, node& _destination);
+	void CalculatePath(Node& _destination);
+	void AStarTraversal(Node& _source, Node& _destination);
 
-	void CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, node& _destination, bool& _reachedDestination, std::set<std::pair<int, std::pair<int, int>>>& _openList, bool m_ClosedList[SIZE][SIZE]);
+	void CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, Node& _destination, bool& _reachedDestination, std::set<std::pair<int, std::pair<int, int>>>& _openList, bool m_ClosedList[SIZE][SIZE]);
 
 	void ToggleDebug();
 
+	bool IsMouseOverTile(sf::Vector2f _mousePos);
 	sf::Vector2i GetMousedOverTile(sf::Vector2f _mousePos);
 	void ChangeTileColour(sf::Vector2i _index);
 
-	node m_nodes[SIZE][SIZE]{};
-protected:
+	Node& GetSourceNode();
+	Node& GetDestinationNode();
 
+	void CleanupContainers();
+protected:
 	inline int CalculateHValue(std::pair<int, int> _node, std::pair<int, int> _destination)
 	{
 		int dx = _node.first - _destination.first;
@@ -58,7 +61,7 @@ protected:
 
 	inline bool IsBlocked(std::pair<int, int> _position)
 	{
-		if (m_nodes[_position.first][_position.second].m_bObstical == true)
+		if (m_Nodes[_position.first][_position.second].m_bObstical == true)
 		{
 			return true;
 		}
@@ -77,9 +80,13 @@ protected:
 			return (false);
 	}
 
+	Node m_Nodes[SIZE][SIZE]{};
+
 	bool m_bDebug = false;
 
 	sf::RectangleShape m_Shapes[SIZE][SIZE];
+
+	bool m_ClosedList[SIZE][SIZE];
 
 	std::stack<std::pair<int, int>> path;
 
@@ -88,5 +95,8 @@ protected:
 
 	int bestMove = 8000;
 	int previousMove = 7000;
+
+	Node* m_SourceNode = nullptr;
+	Node* m_DestinationNode = nullptr;
 };
 
