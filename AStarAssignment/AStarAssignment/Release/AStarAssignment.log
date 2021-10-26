@@ -1,0 +1,49 @@
+﻿  main.cpp
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.h(42,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.h(47,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.h(48,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  Navigation.cpp
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.h(42,18): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.h(47,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.h(48,10): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.cpp(50,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\trand\source\repos\AStarAssignment\AStarAssignment\Navigation.cpp(51,36): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Player.cpp
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) protected: virtual void __thiscall sf::RenderWindow::onResize(void)" (__imp_?onResize@RenderWindow@sf@@MAEXXZ)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) protected: virtual void __thiscall sf::RenderWindow::onCreate(void)" (__imp_?onCreate@RenderWindow@sf@@MAEXXZ)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: virtual bool __thiscall sf::RenderWindow::setActive(bool)" (__imp_?setActive@RenderWindow@sf@@UAE_N_N@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: virtual class sf::Vector2<unsigned int> __thiscall sf::RenderWindow::getSize(void)const " (__imp_?getSize@RenderWindow@sf@@UBE?AV?$Vector2@I@2@XZ)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: virtual __thiscall sf::RenderWindow::~RenderWindow(void)" (__imp_??1RenderWindow@sf@@UAE@XZ)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: __thiscall sf::RenderWindow::RenderWindow(void)" (__imp_??0RenderWindow@sf@@QAE@XZ)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Window::setFramerateLimit(unsigned int)" (__imp_?setFramerateLimit@Window@sf@@QAEXI@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Window::setKeyRepeatEnabled(bool)" (__imp_?setKeyRepeatEnabled@Window@sf@@QAEX_N@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Window::setMouseCursorVisible(bool)" (__imp_?setMouseCursorVisible@Window@sf@@QAEX_N@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Window::setVerticalSyncEnabled(bool)" (__imp_?setVerticalSyncEnabled@Window@sf@@QAEX_N@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: bool __thiscall sf::Window::pollEvent(class sf::Event &)" (__imp_?pollEvent@Window@sf@@QAE_NAAVEvent@2@@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: bool __thiscall sf::Window::isOpen(void)const " (__imp_?isOpen@Window@sf@@QBE_NXZ)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Window::close(void)" (__imp_?close@Window@sf@@QAEXXZ)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Window::create(class sf::VideoMode,class sf::String const &,unsigned int,struct sf::ContextSettings const &)" (__imp_?create@Window@sf@@QAEXVVideoMode@2@ABVString@2@IABUContextSettings@2@@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: __thiscall sf::String::String(char const *,class std::locale const &)" (__imp_??0String@sf@@QAE@PBDABVlocale@std@@@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: __thiscall sf::VideoMode::VideoMode(unsigned int,unsigned int,unsigned int)" (__imp_??0VideoMode@sf@@QAE@III@Z)
+main.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: __thiscall sf::String::~String(void)" (__imp_??1String@sf@@QAE@XZ)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: static class sf::RenderStates const sf::RenderStates::Default" (__imp_?Default@RenderStates@sf@@2V12@B)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Transformable::setOrigin(float,float)" (__imp_?setOrigin@Transformable@sf@@QAEXMM@Z)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Transformable::setPosition(float,float)" (__imp_?setPosition@Transformable@sf@@QAEXMM@Z)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::RenderTarget::draw(class sf::Drawable const &,class sf::RenderStates const &)" (__imp_?draw@RenderTarget@sf@@QAEXABVDrawable@2@ABVRenderStates@2@@Z)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::RectangleShape::setSize(class sf::Vector2<float> const &)" (__imp_?setSize@RectangleShape@sf@@QAEXABV?$Vector2@M@2@@Z)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: __thiscall sf::RectangleShape::RectangleShape(class sf::Vector2<float> const &)" (__imp_??0RectangleShape@sf@@QAE@ABV?$Vector2@M@1@@Z)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: class sf::RectangleShape & __thiscall sf::RectangleShape::operator=(class sf::RectangleShape &&)" (__imp_??4RectangleShape@sf@@QAEAAV01@$$QAV01@@Z)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: virtual __thiscall sf::RectangleShape::~RectangleShape(void)" (__imp_??1RectangleShape@sf@@UAE@XZ)
+Navigation.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::RectangleShape::`default constructor closure'(void)" (__imp_??_FRectangleShape@sf@@QAEXXZ)
+Player.obj : error LNK2001: unresolved external symbol "public: virtual void __thiscall b2PolygonShape::ComputeMass(struct b2MassData *,float)const " (?ComputeMass@b2PolygonShape@@UBEXPAUb2MassData@@M@Z)
+Player.obj : error LNK2001: unresolved external symbol "public: virtual void __thiscall b2PolygonShape::ComputeAABB(struct b2AABB *,struct b2Transform const &,int)const " (?ComputeAABB@b2PolygonShape@@UBEXPAUb2AABB@@ABUb2Transform@@H@Z)
+Player.obj : error LNK2001: unresolved external symbol "public: virtual bool __thiscall b2PolygonShape::RayCast(struct b2RayCastOutput *,struct b2RayCastInput const &,struct b2Transform const &,int)const " (?RayCast@b2PolygonShape@@UBE_NPAUb2RayCastOutput@@ABUb2RayCastInput@@ABUb2Transform@@H@Z)
+Player.obj : error LNK2001: unresolved external symbol "public: virtual bool __thiscall b2PolygonShape::TestPoint(struct b2Transform const &,struct b2Vec2 const &)const " (?TestPoint@b2PolygonShape@@UBE_NABUb2Transform@@ABUb2Vec2@@@Z)
+Player.obj : error LNK2001: unresolved external symbol "public: void __thiscall b2PolygonShape::SetAsBox(float,float)" (?SetAsBox@b2PolygonShape@@QAEXMM@Z)
+Player.obj : error LNK2001: unresolved external symbol "public: virtual int __thiscall b2PolygonShape::GetChildCount(void)const " (?GetChildCount@b2PolygonShape@@UBEHXZ)
+Player.obj : error LNK2001: unresolved external symbol "public: virtual class b2Shape * __thiscall b2PolygonShape::Clone(class b2BlockAllocator *)const " (?Clone@b2PolygonShape@@UBEPAVb2Shape@@PAVb2BlockAllocator@@@Z)
+Player.obj : error LNK2001: unresolved external symbol "public: class b2Fixture * __thiscall b2Body::CreateFixture(struct b2FixtureDef const *)" (?CreateFixture@b2Body@@QAEPAVb2Fixture@@PBUb2FixtureDef@@@Z)
+Player.obj : error LNK2001: unresolved external symbol "public: class b2Body * __thiscall b2World::CreateBody(struct b2BodyDef const *)" (?CreateBody@b2World@@QAEPAVb2Body@@PBUb2BodyDef@@@Z)
+Player.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: void __thiscall sf::Transformable::setRotation(float)" (__imp_?setRotation@Transformable@sf@@QAEXM@Z)
+Player.obj : error LNK2001: unresolved external symbol "__declspec(dllimport) public: __thiscall sf::RectangleShape::RectangleShape(class sf::RectangleShape const &)" (__imp_??0RectangleShape@sf@@QAE@ABV01@@Z)
+C:\Users\trand\source\repos\AStarAssignment\Release\AStarAssignment.exe : fatal error LNK1120: 37 unresolved externals

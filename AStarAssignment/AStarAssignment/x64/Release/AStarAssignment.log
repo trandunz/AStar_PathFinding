@@ -1,0 +1,16 @@
+﻿  Navigation.cpp
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(115,42): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(118,117): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(118,64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(129,112): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(130,109): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(187,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(188,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(189,20): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(246,29): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Generating code
+  1 of 349 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  AStarAssignment.vcxproj -> C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\x64\Release\AStarAssignment.exe
