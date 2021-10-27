@@ -68,21 +68,12 @@ void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 			if (_event->key.code == sf::Mouse::Middle)
 			{
 				sf::Vector2i index = GetMousedOverTile(_mouserPos);
-
-				if (!m_Nodes[index.x][index.y].m_bSource && !m_Nodes[index.x][index.y].m_bObstical)
-				{
-					m_Nodes[index.x][index.y].m_bDestination = true;
-					m_DestinationNode = &m_Nodes[index.x][index.y];
-				}
+				PlaceDestination(index.x, index.y);
 			}
 			else if (_event->key.code == sf::Mouse::Right)
 			{
 				sf::Vector2i index = GetMousedOverTile(_mouserPos);
-				if (!m_Nodes[index.x][index.y].m_bDestination && !m_Nodes[index.x][index.y].m_bObstical)
-				{
-					m_Nodes[index.x][index.y].m_bSource = true;
-					m_SourceNode = &m_Nodes[index.x][index.y];
-				}
+				PlaceSource(index.x, index.y);
 			}
 		}
 	}
@@ -184,24 +175,24 @@ void Navigation::InitShapes(int _i, int _j)
 
 void Navigation::CalculatePath(Node& _destination)
 {
-	int row = _destination.m_Position.first;
-	int col = _destination.m_Position.second;
+	int i = _destination.m_Position.first;
+	int j = _destination.m_Position.second;
 
-	while (!(m_Nodes[row][col].m_Parent.first == row && m_Nodes[row][col].m_Parent.second == col)) 
+	while (!(m_Nodes[i][j].m_Parent.first == i && m_Nodes[i][j].m_Parent.second == j)) 
 	{
-		m_Path.push(std::make_pair(row, col));
-		int temp_row = m_Nodes[row][col].m_Parent.first;
-		int temp_col = m_Nodes[row][col].m_Parent.second;
-		row = temp_row;
-		col = temp_col;
+		m_Path.push(std::make_pair(i, j));
+		int temp_i = m_Nodes[i][j].m_Parent.first;
+		int temp_j = m_Nodes[i][j].m_Parent.second;
+		i = temp_i;
+		j = temp_j;
 	}
 
-	m_Path.push(std::make_pair(row, col));
+	m_Path.push(std::make_pair(i, j));
 	while (!m_Path.empty()) 
 	{
-		std::pair<int, int> p = m_Path.top();
+		Vector2 BestMove = m_Path.top();
 		m_Path.pop();
-		m_Nodes[p.first][p.second].m_bTraversed = true;
+		m_Nodes[BestMove.first][BestMove.second].m_bTraversed = true;
 	}
 }
 
@@ -210,13 +201,13 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 	if (m_SourceNode != nullptr && m_DestinationNode != nullptr)
 	{
 		CleanupContainers();
-		std::set<std::pair<int, std::pair<int, int>>> m_OpenList;
+		std::set<std::pair<int, Vector2>> m_OpenList;
 
-		m_Nodes[_source.m_Position.first][_source.m_Position.second].m_Parent = _source.m_Parent;
-
+		bool reachedDestination = false;
 		int i = 0;
 		int j = 0;
 
+		m_Nodes[_source.m_Position.first][_source.m_Position.second].m_Parent = _source.m_Parent;
 		i = _source.m_Position.first;
 		j = _source.m_Position.second;
 
@@ -230,23 +221,21 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 
 		m_OpenList.insert(std::make_pair(0, std::make_pair(i, j)));
 
-		bool reachedDestination = false;
-
 		while (!m_OpenList.empty())
 		{
-			std::pair<int, std::pair<int, int>> p = *m_OpenList.begin();
+			std::pair<int, Vector2> currentNode = *m_OpenList.begin();
+			i = currentNode.second.first;
+			j = currentNode.second.second;
+
+			// Move To Close List
 			m_OpenList.erase(m_OpenList.begin());
-
-			i = p.second.first;
-			j = p.second.second;
-
 			m_ClosedList[i][j] = true;
 
+			// Check Neighbors
 			CalculateNeighbors(i, j, -1, 0, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 1, 0, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 0, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 0, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-
 			CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, -1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
@@ -343,7 +332,7 @@ void Navigation::ChangeTileType(sf::Vector2i _index)
 void Navigation::CleanupContainers()
 {
 	// Path Stack Cleanup
-	m_Path = std::stack<std::pair<int, int>>();
+	m_Path = std::stack<Vector2>();
 
 	// Node Value Reset
 	for (int i = 0; i < SIZE; i++)

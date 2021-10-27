@@ -42,7 +42,7 @@ public:
 
 	void SetNodeColourToType(int _i, int _j);
 protected:
-	inline int CalculateHValue(std::pair<int, int> _node, std::pair<int, int> _destination)
+	inline int CalculateHValue(Vector2 _node, Vector2 _destination)
 	{
 		int dx = _node.first - _destination.first;
 		int dy = _node.second - _destination.second;
@@ -61,7 +61,7 @@ protected:
 		return false;
 	}
 
-	inline bool IsBlocked(std::pair<int, int> _position)
+	inline bool IsBlocked(Vector2 _position)
 	{
 		if (m_Nodes[_position.first][_position.second].m_bObstical == true)
 		{
@@ -74,7 +74,7 @@ protected:
 		
 	}
 
-	inline bool IsDestination(std::pair<int, int> _position, std::pair<int, int> _destination)
+	inline bool IsDestination(Vector2 _position, Vector2 _destination)
 	{
 		if (_position.first == _destination.first && _position.second == _destination.second)
 			return (true);
@@ -82,8 +82,26 @@ protected:
 			return (false);
 	}
 
+	inline void PlaceDestination(int _i, int _j)
+	{
+		if (!m_Nodes[_i][_j].m_bSource && !m_Nodes[_i][_j].m_bObstical)
+		{
+			m_Nodes[_i][_j].m_bDestination = true;
+			m_DestinationNode = &m_Nodes[_i][_j];
+		}
+	}
+
+	inline void PlaceSource(int _i, int _j)
+	{
+		if (!m_Nodes[_i][_j].m_bDestination && !m_Nodes[_i][_j].m_bObstical)
+		{
+			m_Nodes[_i][_j].m_bSource = true;
+			m_SourceNode = &m_Nodes[_i][_j];
+		}
+	}
+
 	Node m_Nodes[SIZE][SIZE]{};
-	std::stack<std::pair<int, int>> m_Path;
+	std::stack<Vector2> m_Path;
 	sf::RectangleShape m_Shapes[SIZE][SIZE];
 	bool m_ClosedList[SIZE][SIZE];
 

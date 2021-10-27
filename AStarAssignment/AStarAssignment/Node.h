@@ -3,13 +3,13 @@
 class Node : public NumptyBehavior
 {
 public:
-	std::pair<int, int> m_Position{};
+	Vector2 m_Position{};
 
 	int F = INT_MAX;
 	int G = INT_MAX;
 	int H = INT_MAX;
 
-	std::pair<int, int> m_Parent{-1,-1};
+	Vector2 m_Parent{-1,-1};
 
 	sf::Text m_FText;
 	sf::Text m_GText;

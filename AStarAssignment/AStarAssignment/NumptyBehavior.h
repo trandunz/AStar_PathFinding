@@ -16,11 +16,7 @@
 class NumptyBehavior
 {
 public:
-	struct Vector2
-	{
-		float x = 0;
-		float y = 0;
-	};
+	typedef std::pair<int, int> Vector2;
 
 	virtual void Start() {}
 	virtual void Update() {}
@@ -29,8 +25,8 @@ public:
 
 	static inline float Mag(Vector2 _vec1, Vector2 _vec2)
 	{
-		float dx = _vec2.x - _vec1.x;
-		float dy = _vec2.y - _vec1.y;
+		float dx = _vec2.first - _vec1.first;
+		float dy = _vec2.second - _vec1.second;
 
 		return sqrt((dx * dx) + (dy * dy));
 	}
