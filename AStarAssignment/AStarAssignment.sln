@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AStarAssignment", "AStarAssignment\AStarAssignment.vcxproj", "{09921CEB-7837-4CB9-9789-244F0BCA3A55}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BFS_DFS", "BFS_DFS\BFS_DFS.vcxproj", "{6B606778-D2ED-445E-BFF6-863EB0C63D9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{09921CEB-7837-4CB9-9789-244F0BCA3A55}.Release|x64.Build.0 = Release|x64
 		{09921CEB-7837-4CB9-9789-244F0BCA3A55}.Release|x86.ActiveCfg = Release|Win32
 		{09921CEB-7837-4CB9-9789-244F0BCA3A55}.Release|x86.Build.0 = Release|Win32
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Debug|x64.ActiveCfg = Debug|x64
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Debug|x64.Build.0 = Debug|x64
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Debug|x86.ActiveCfg = Debug|Win32
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Debug|x86.Build.0 = Debug|Win32
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Release|x64.ActiveCfg = Release|x64
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Release|x64.Build.0 = Release|x64
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Release|x86.ActiveCfg = Release|Win32
+		{6B606778-D2ED-445E-BFF6-863EB0C63D9A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

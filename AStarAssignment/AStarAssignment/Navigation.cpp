@@ -4,13 +4,11 @@ Navigation::Navigation(sf::RenderWindow* _renderWindow)
 {
 	m_RenderWindow = _renderWindow;
 	LoadFont(m_Font, "Fonts/ANDYB.TTF");
-	memset(m_ClosedList, false, sizeof(m_ClosedList));
 }
 
 Navigation::~Navigation()
 {
 	CleanupContainers();
-	memset(m_ClosedList, false, sizeof(m_ClosedList));
 	m_SourceNode = nullptr;
 	m_DestinationNode = nullptr;
 	m_RenderWindow = nullptr;
@@ -24,7 +22,6 @@ void Navigation::Start()
 	{
 		for (int j = 0; j < SIZE; j++)
 		{
-
 			InitShapes(i, j);
 		}
 	}
@@ -32,9 +29,6 @@ void Navigation::Start()
 
 void Navigation::Update(sf::Vector2f _mouserPos)
 {
-	AStarTraversal(*m_SourceNode, *m_DestinationNode);
-	UpdateText();
-
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		if (IsMouseOverTile(_mouserPos))
@@ -46,6 +40,10 @@ void Navigation::Update(sf::Vector2f _mouserPos)
 			}
 		}
 	}
+
+	AStarTraversal(*m_SourceNode, *m_DestinationNode);
+
+	UpdateText();
 }
 
 void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
@@ -236,10 +234,14 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 			CalculateNeighbors(i, j, 1, 0, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 0, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 0, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-			CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-			CalculateNeighbors(i, j, 1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-			CalculateNeighbors(i, j, -1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-			CalculateNeighbors(i, j, 1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+			
+			if (DIAGONAL)
+			{
+				CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				CalculateNeighbors(i, j, 1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				CalculateNeighbors(i, j, -1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				CalculateNeighbors(i, j, 1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+			}
 		}
 	}
 }

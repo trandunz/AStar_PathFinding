@@ -9,15 +9,15 @@ C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignmen
           [
               _Ty2=int
           ]
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(158,42): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(161,117): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(161,64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(172,112): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(173,109): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(156,42): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(159,117): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(159,64): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(170,112): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(171,109): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
 C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(268,29): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
   Generating code
-  3 of 337 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
+  7 of 337 functions ( 2.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    1 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   AStarAssignment.vcxproj -> C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\x64\Release\AStarAssignment.exe
