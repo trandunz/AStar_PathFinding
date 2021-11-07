@@ -3,7 +3,7 @@
 #include "NumptyBehavior.h"
 
 #define NODE_DIFFERENCE 10
-#define SIZE 40
+#define SIZE 20
 #define DIAGONAL false
 
 #include "node.h"
