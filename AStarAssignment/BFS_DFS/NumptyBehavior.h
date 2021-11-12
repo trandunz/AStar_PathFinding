@@ -15,6 +15,7 @@
 #include <set>
 #include <conio.h>
 #include <ctype.h>
+#include <list>
 
 class NumptyBehavior
 {

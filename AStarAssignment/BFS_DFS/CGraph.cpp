@@ -8,8 +8,8 @@ void CGraph::AddEdge(int _pos, int _value)
 void CGraph::DFS(int _pos)
 {
 	m_TraversedNodes[_pos] = true;
-	//std::cout << (char)(_pos + ASCIIOFFSET);
-	std::cout << _pos;
+	std::cout << (char)(_pos + ASCIIOFFSET);
+	//std::cout << _pos;
 
 	for (auto& item : m_AdjacentNodes[_pos])
 	{
@@ -41,8 +41,8 @@ void CGraph::BFS(int _pos)
 	while (bfsQueue.empty() == false)
 	{
 		m_TraversedNode = bfsQueue.front();
-		//std::cout << (char)(m_TraversedNode + ASCIIOFFSET);
-		std::cout << m_TraversedNode;
+		std::cout << (char)(m_TraversedNode + ASCIIOFFSET);
+		//std::cout << m_TraversedNode;
 		bfsQueue.pop();
 
 		for (auto& item : m_AdjacentNodes[m_TraversedNode])

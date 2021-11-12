@@ -1,4 +1,5 @@
 #include "CGraph.h"
+#include "GraphTwo.h"
 
 #define A 0
 #define B 1
@@ -28,22 +29,54 @@ int m_EdgeCount = 0;
 
 int main()
 {
+	/// <summary>
+	/// WORKS
+	/// </summary>
+	//std::vector<Edge> edges = {
+	//	{A, B}, {A, I}, {B, F}, {C, D}, {C, H}, {C, G},
+	//	{E, F}, {E, I}, {F, G}, {F, I}, {G, H}
+	//	// vertex 0, 13, and 14 are single nodes
+	//};
+
+	//std::vector<Edge> edges = {
+	//	{A, B}, {A, I}, {I, G}, {I, C}, {C, F}, {C, D},
+	//	{G, F}, {G, H}, {H, E}, {C, E}, {C, D}
+	//	// vertex 0, 13, and 14 are single nodes
+	//};
+
+	//// total number of nodes in the graph (labelled from 0 to 14)
+	//int n = 9;
+
+	//// build a graph from the given edges
+	//GraphTwo graph(edges, n);
+
+	//// to keep track of whether a vertex is discovered or not
+	//std::vector<bool> discovered(n, false);
+
+	//// create a queue for doing BFS
+	//std::queue<int> q;
+
+	//// Perform BFS traversal from all undiscovered nodes to
+	//// cover all connected components of a graph
+	//for (int i = 0; i < n; i++)
+	//{
+	//	if (discovered[i] == false)
+	//	{
+	//		// mark the source vertex as discovered
+	//		discovered[i] = true;
+
+	//		// enqueue source vertex
+	//		q.push(i);
+
+	//		// start BFS traversal from vertex `i`
+	//		recursiveBFS(graph, q, discovered);
+	//	}
+	//}
+	////
+
 	CGraph m_Graph;
-	m_Graph.AddEdge(A, B);
-	m_Graph.AddEdge(A, I);
-	m_Graph.AddEdge(B, F);
-	m_Graph.AddEdge(C, D);
-	m_Graph.AddEdge(C, H);
-	m_Graph.AddEdge(C, G);
-	m_Graph.AddEdge(E, F);
-	m_Graph.AddEdge(E, I);
-	m_Graph.AddEdge(F, G);
-	m_Graph.AddEdge(F, I);
-	m_Graph.AddEdge(G, H);
 
-	m_Graph.BFS();
-
-	/*GrabNodes();
+	GrabNodes();
 	GrabEdgeCount();
 	GrabEdgeValues();
 	ProcessEdgeInputsIntoGraph(m_Graph);
@@ -54,7 +87,7 @@ int main()
 	m_Graph.CleanupMaps();
 	ProcessEdgeInputsIntoGraph(m_Graph);
 	std::cout << std::endl << "The BFS sequence in the graph - ";
-	m_Graph.BFS();*/
+	m_Graph.BFS();
 
 
 	return NULL;

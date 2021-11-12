@@ -140,10 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CGraph.h" />
+    <ClInclude Include="GraphTwo.h" />
     <ClInclude Include="NumptyBehavior.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CGraph.cpp" />
+    <ClCompile Include="GraphTwo.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
