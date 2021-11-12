@@ -151,12 +151,12 @@ void Navigation::Initnodes()
 void Navigation::InitShapes(int _i, int _j)
 {
 	m_Shapes[_i][_j] = sf::RectangleShape(sf::Vector2f(10, 10));
-	m_Shapes[_i][_j].setSize(sf::Vector2f(10, 10));
+	m_Shapes[_i][_j].setSize(sf::Vector2f(10.0f, 10.0f));
 	m_Shapes[_i][_j].setFillColor(sf::Color::Transparent);
-	m_Shapes[_i][_j].setOutlineThickness(0.1);
+	m_Shapes[_i][_j].setOutlineThickness(0.1f);
 	m_Shapes[_i][_j].setOutlineColor(sf::Color::Green);
-	m_Shapes[_i][_j].setOrigin(5, 5);
-	m_Shapes[_i][_j].setPosition(m_Nodes[_i][_j].m_Position.first * NODE_DIFFERENCE, m_Nodes[_i][_j].m_Position.second * NODE_DIFFERENCE);
+	m_Shapes[_i][_j].setOrigin(5.0f, 5.0f);
+	m_Shapes[_i][_j].setPosition((float)m_Nodes[_i][_j].m_Position.first * NODE_DIFFERENCE, (float)m_Nodes[_i][_j].m_Position.second * NODE_DIFFERENCE);
 
 	m_Nodes[_i][_j].m_FText.setScale(0.12f, 0.12f);
 	m_Nodes[_i][_j].m_GText.setScale(0.12f, 0.12f);
@@ -166,9 +166,9 @@ void Navigation::InitShapes(int _i, int _j)
 	m_Nodes[_i][_j].m_GText.setOrigin(m_Nodes[_i][_j].m_GText.getGlobalBounds().width / 2, m_Nodes[_i][_j].m_GText.getGlobalBounds().height / 2);
 	m_Nodes[_i][_j].m_HText.setOrigin(m_Nodes[_i][_j].m_HText.getGlobalBounds().width / 2, m_Nodes[_i][_j].m_HText.getGlobalBounds().height / 2);
 
-	m_Nodes[_i][_j].m_FText.setPosition(m_Shapes[_i][_j].getPosition().x + 1, m_Shapes[_i][_j].getPosition().y - 3.5f);
-	m_Nodes[_i][_j].m_GText.setPosition(m_Shapes[_i][_j].getPosition().x - 3.5f, m_Shapes[_i][_j].getPosition().y + 1.5);
-	m_Nodes[_i][_j].m_HText.setPosition(m_Shapes[_i][_j].getPosition().x + 1, m_Shapes[_i][_j].getPosition().y + 1.5);
+	m_Nodes[_i][_j].m_FText.setPosition(m_Shapes[_i][_j].getPosition().x + 1.0f, m_Shapes[_i][_j].getPosition().y - 3.5f);
+	m_Nodes[_i][_j].m_GText.setPosition(m_Shapes[_i][_j].getPosition().x - 3.5f, m_Shapes[_i][_j].getPosition().y + 1.5f);
+	m_Nodes[_i][_j].m_HText.setPosition(m_Shapes[_i][_j].getPosition().x + 1.0f, m_Shapes[_i][_j].getPosition().y + 1.5f);
 }
 
 void Navigation::CalculatePath(Node& _destination)
@@ -265,7 +265,7 @@ void Navigation::CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, 
 		}
 		else if (m_ClosedList[_i + _offsetI][_j + _offsetJ] == false && !IsBlocked(std::make_pair(_i + _offsetI, _j + _offsetJ)) == true)
 		{
-			newG = m_Nodes[_i][_j].G + 1.0;
+			newG = m_Nodes[_i][_j].G + 1;
 			newH = CalculateHValue(std::make_pair(_offsetI + _i, _offsetJ+ _j), _destination.m_Position);
 			newF = newG + newH;
 
@@ -316,6 +316,7 @@ sf::Vector2i Navigation::GetMousedOverTile(sf::Vector2f _mousePos)
 			}
 		}
 	}
+	return sf::Vector2i(0,0);
 }
 
 void Navigation::ChangeTileType(sf::Vector2i _index)

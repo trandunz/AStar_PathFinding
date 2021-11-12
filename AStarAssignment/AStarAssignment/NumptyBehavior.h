@@ -25,8 +25,8 @@ public:
 
 	static inline float Mag(Vector2 _vec1, Vector2 _vec2)
 	{
-		float dx = _vec2.first - _vec1.first;
-		float dy = _vec2.second - _vec1.second;
+		float dx = (float)(_vec2.first - _vec1.first);
+		float dy = (float)(_vec2.second - _vec1.second);
 
 		return sqrt((dx * dx) + (dy * dy));
 	}
