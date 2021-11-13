@@ -21,18 +21,9 @@
     <ClInclude Include="CGraph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphTwo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CGraph.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphTwo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

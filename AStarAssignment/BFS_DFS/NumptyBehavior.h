@@ -3,7 +3,7 @@
 #ifndef _NUMPTYBEHAVIOR_
 #define _NUMPTYBEHAVIOR_
 
-#define ASCIIOFFSET 97
+#define ASCIIOFFSET 65
 
 #include <iostream>
 #include <algorithm>
@@ -20,6 +20,10 @@
 class NumptyBehavior
 {
 public:
+	struct Edge
+	{
+		int m_Parent, m_Child;
+	};
 	typedef std::pair<int, int> Vector2;
 
 	virtual void Start() {}

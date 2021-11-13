@@ -399,6 +399,7 @@ Node& Navigation::GetSourceNode()
 			}
 		}
 	}
+	return m_Nodes[0][0];
 }
 
 Node& Navigation::GetDestinationNode()
@@ -413,4 +414,5 @@ Node& Navigation::GetDestinationNode()
 			}
 		}
 	}
+	return m_Nodes[0][0];
 }

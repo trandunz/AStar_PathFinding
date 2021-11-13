@@ -1,18 +1,79 @@
-#pragma once
 #include "NumptyBehavior.h"
 
-class CGraph : public NumptyBehavior
+class CGraph
 {
 public:
-	void AddEdge(int _pos, int _value);
-	void DFS(int _pos);
-	void DFS();
-	void BFS(int _pos);
-	void BFS();
-	void CleanupMaps();
+    inline CGraph(std::vector<NumptyBehavior::Edge>& _edges, int _numberOfNodes)
+    {
+        m_AdjacentNodes.resize(_numberOfNodes);
+
+        for (auto& item : _edges)
+        {
+            m_AdjacentNodes[item.m_Parent].emplace_back(item.m_Child);
+            m_AdjacentNodes[item.m_Child].emplace_back(item.m_Parent);
+        }
+    }
+
+
+    inline void DFS(int _currentNode, std::vector<bool>& _traversed)
+    {
+        _traversed[_currentNode] = true;
+        if (!IsNodeSingular(_currentNode))
+        {
+            std::cout << (char)(_currentNode + ASCIIOFFSET);
+        }
+
+        for (auto& item : m_AdjacentNodes[_currentNode])
+        {
+            if (_traversed[item] == false)
+            {
+                DFS(item, _traversed);
+            }
+        }
+    }
+
+    inline void BFS(std::queue<int>& _bfsQueue, std::vector<bool>& _traversed)
+    {
+        if (_bfsQueue.empty())
+        {
+            return;
+        }
+
+        int currentNode = _bfsQueue.front();
+        _bfsQueue.pop();
+        
+        if (!IsNodeSingular(currentNode))
+        {
+            std::cout << (char)(currentNode + ASCIIOFFSET);
+        }
+
+        for (auto& item : m_AdjacentNodes[currentNode])
+        {
+            if (_traversed[item] == false)
+            {
+                _traversed[item] = true;
+                _bfsQueue.push(item);
+            }
+        }
+
+        BFS(_bfsQueue, _traversed);
+    }
 
 private:
-	std::map<int, bool> m_TraversedNodes{};
-	std::map<int, std::vector<int>> m_AdjacentNodes{};
-};
+    inline bool IsNodeSingular(int _node)
+    {
+        for (int i = 0; i < m_AdjacentNodes.size(); i++)
+        {
+            for (auto& item : m_AdjacentNodes[i])
+            {
+                if (item == _node)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
+    std::vector<std::vector<int>> m_AdjacentNodes;
+};
