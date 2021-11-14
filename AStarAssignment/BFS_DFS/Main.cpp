@@ -32,6 +32,7 @@ int main()
 	std::cout << "The BFS sequence in the graph - ";
 	BFS();
 	std::cout << std::endl;
+	_getch();
 
 	return NULL;
 }
