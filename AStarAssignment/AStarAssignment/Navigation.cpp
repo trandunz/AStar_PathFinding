@@ -4,6 +4,13 @@ Navigation::Navigation(sf::RenderWindow* _renderWindow)
 {
 	m_RenderWindow = _renderWindow;
 	LoadFont(m_Font, "Fonts/ANDYB.TTF");
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int j = 0; j < SIZE; j++)
+		{
+			m_ClosedList[i][j] = false;
+		}
+	}
 }
 
 Navigation::~Navigation()
@@ -63,12 +70,12 @@ void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 	{
 		if (IsMouseOverTile(_mouserPos))
 		{
-			if (_event->key.code == sf::Mouse::Middle)
+			if (_event->key.code == sf::Mouse::Right)
 			{
 				sf::Vector2i index = GetMousedOverTile(_mouserPos);
 				PlaceDestination(index.x, index.y);
 			}
-			else if (_event->key.code == sf::Mouse::Right)
+			else if (_event->key.code == sf::Mouse::Middle)
 			{
 				sf::Vector2i index = GetMousedOverTile(_mouserPos);
 				PlaceSource(index.x, index.y);
@@ -79,7 +86,6 @@ void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 
 void Navigation::Render()
 {
-	m_RenderWindow->clear();
 
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -89,12 +95,14 @@ void Navigation::Render()
 		}
 	}
 
+	SetShortestPathGreen();
+
 	if (m_bDebug)
 	{
 		RenderText();
 	}
 
-	m_RenderWindow->display();
+
 }
 
 void Navigation::RenderShapes(int _i, int _j)
@@ -186,12 +194,15 @@ void Navigation::CalculatePath(Node& _destination)
 	}
 
 	m_Path.push(std::make_pair(i, j));
-	while (!m_Path.empty()) 
+	std::queue<Vector2> tempPath = m_Path;
+	while (!m_Path.empty())
 	{
-		Vector2 BestMove = m_Path.top();
+		Vector2 BestMove = m_Path.front();
 		m_Path.pop();
 		m_Nodes[BestMove.first][BestMove.second].m_bTraversed = true;
 	}
+
+	m_Paths.push_back(tempPath);
 }
 
 void Navigation::AStarTraversal(Node& _source, Node& _destination)
@@ -219,6 +230,7 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 
 		m_OpenList.insert(std::make_pair(0, std::make_pair(i, j)));
 
+		
 		while (!m_OpenList.empty())
 		{
 			std::pair<int, Vector2> currentNode = *m_OpenList.begin();
@@ -237,10 +249,22 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 			
 			if (DIAGONAL)
 			{
-				CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-				CalculateNeighbors(i, j, 1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-				CalculateNeighbors(i, j, -1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
-				CalculateNeighbors(i, j, 1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				if (!IsBlocked(std::make_pair(i - 1, j)) || !IsBlocked(std::make_pair(i, j - 1)))
+				{
+					CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
+				if (!IsBlocked(std::make_pair(i + 1, j)) || !IsBlocked(std::make_pair(i, j - 1)))
+				{
+					CalculateNeighbors(i, j, 1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
+				if (!IsBlocked(std::make_pair(i - 1, j)) || !IsBlocked(std::make_pair(i, j + 1)))
+				{
+					CalculateNeighbors(i, j, -1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
+				if (!IsBlocked(std::make_pair(i + 1, j)) || !IsBlocked(std::make_pair(i, j + 1)))
+				{
+					CalculateNeighbors(i, j, 1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
 			}
 		}
 	}
@@ -321,7 +345,7 @@ sf::Vector2i Navigation::GetMousedOverTile(sf::Vector2f _mousePos)
 
 void Navigation::ChangeTileType(sf::Vector2i _index)
 {
-	m_Nodes[_index.x][_index.y].m_bObstical = m_bEraser;
+	m_Nodes[_index.x][_index.y].m_bObstical = !m_bEraser;
 	
 	if (m_Nodes[_index.x][_index.y].m_bSource)
 	{
@@ -335,7 +359,7 @@ void Navigation::ChangeTileType(sf::Vector2i _index)
 void Navigation::CleanupContainers()
 {
 	// Path Stack Cleanup
-	m_Path = std::stack<Vector2>();
+	m_Path = std::queue<Vector2>();
 
 	// Node Value Reset
 	for (int i = 0; i < SIZE; i++)
@@ -363,12 +387,44 @@ void Navigation::CleanupContainers()
 	}
 }
 
+void Navigation::SetShortestPathGreen()
+{
+	int size = INT_MAX;
+	for (auto& item : m_Paths)
+	{
+		if (item.size() < size)
+		{
+			size = item.size();
+		}
+	}
+	for (auto& item : m_Paths)
+	{
+		if (item.size() == size)
+		{
+			while (item.size() > 0)
+			{
+				if (!m_Nodes[item.front().first][item.front().second].m_bDestination && !m_Nodes[item.front().first][item.front().second].m_bSource)
+				{
+					m_Shapes[item.front().first][item.front().second].setFillColor(sf::Color::Green);
+				}
+				m_RenderWindow->draw(m_Shapes[item.front().first][item.front().second]);
+				item.pop();
+			}
+			break;
+		}
+	}
+	for (auto& item : m_Paths)
+	{
+		while (item.size() > 0)
+		{
+			item.pop();
+		}
+	}
+	m_Paths.clear();
+}
+
 void Navigation::SetNodeColourToType(int _i, int _j)
 {
-	if (m_Nodes[_i][_j].m_bTraversed)
-	{
-		m_Shapes[_i][_j].setFillColor(sf::Color::Green);
-	}
 	if (m_Nodes[_i][_j].m_bSource)
 	{
 		m_Shapes[_i][_j].setFillColor(sf::Color::Cyan);
@@ -381,7 +437,7 @@ void Navigation::SetNodeColourToType(int _i, int _j)
 	{
 		m_Shapes[_i][_j].setFillColor(sf::Color::Magenta);
 	}
-	if (!m_Nodes[_i][_j].m_bObstical && !m_Nodes[_i][_j].m_bTraversed && !m_Nodes[_i][_j].m_bSource && !m_Nodes[_i][_j].m_bDestination)
+	if (!m_Nodes[_i][_j].m_bObstical && !m_Nodes[_i][_j].m_bSource && !m_Nodes[_i][_j].m_bDestination)
 	{
 		m_Shapes[_i][_j].setFillColor(sf::Color::Transparent);
 	}

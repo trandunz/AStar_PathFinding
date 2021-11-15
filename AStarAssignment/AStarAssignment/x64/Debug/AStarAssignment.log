@@ -1,1 +1,16 @@
-﻿
+﻿  GUI.cpp
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(30,158): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(30,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(40,204): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(40,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(50,204): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(50,71): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(60,202): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(60,69): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(66,200): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\GUI.cpp(66,67): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Navigation.cpp
+C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\AStarAssignment\Navigation.cpp(397,22): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  main.cpp
+  Generating Code...
+  AStarAssignment.vcxproj -> C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\x64\Debug\AStarAssignment.exe

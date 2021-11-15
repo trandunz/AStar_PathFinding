@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "Navigation.h"
+#include "GUI.h"
 
 void Start();
 void Update();
@@ -12,9 +13,11 @@ void CleanupPointers();
 
 sf::RenderWindow* m_RenderWindow = nullptr;
 sf::Event* m_Event;
-sf::View m_View;
+sf::View m_WorldView;
+sf::View m_UIView;
 
 Navigation* m_Navigation = nullptr;
+GUI* m_GUI = nullptr;
 
 sf::Vector2f m_MousePos;
 
@@ -53,23 +56,29 @@ void CreateWindow(sf::Uint32 _style)
 	m_RenderWindow->setKeyRepeatEnabled(false);
 	m_RenderWindow->setMouseCursorVisible(true);
 
-	m_View = sf::View(sf::Vector2f((SIZE * 5) - 5, (SIZE * 5) - 5), sf::Vector2f(1310, 1310));
+	m_UIView = sf::View(sf::Vector2f((SIZE * 5) - 5, (SIZE * 5) - 5), sf::Vector2f(1310, 1310));
+	m_WorldView = sf::View(sf::Vector2f((SIZE * 5) - 5, (SIZE * 5) - 5), sf::Vector2f(1310, 1310));
 	float zoomfactor = SIZE / 130.f;
-	m_View.zoom(zoomfactor);
-	m_RenderWindow->setView(m_View);
+	m_WorldView.zoom(zoomfactor);
+	m_RenderWindow->setView(m_WorldView);
 }
 
 void Start()
 {
 	m_Navigation = new Navigation(m_RenderWindow);
 	m_Navigation->Start();
+
+	m_RenderWindow->setView(m_UIView);
+	m_GUI = new GUI(m_RenderWindow, m_WorldView, m_UIView, m_Navigation);
+	m_GUI->InitNavigationUI();
+	m_RenderWindow->setView(m_WorldView);
 }
 
 void Update()
 {
 	while (m_RenderWindow->isOpen())
 	{
-		m_MousePos = m_RenderWindow->mapPixelToCoords(sf::Mouse::getPosition(*m_RenderWindow), m_View);
+		m_MousePos = m_RenderWindow->mapPixelToCoords(sf::Mouse::getPosition(*m_RenderWindow), m_WorldView);
 		m_Navigation->Update(m_MousePos);
 
 		PolledUpdate();
@@ -94,11 +103,17 @@ void PolledUpdate()
 
 void Render()
 {
+	m_RenderWindow->clear();
 	m_Navigation->Render();
+
+	m_GUI->NavigationUI();
+	m_RenderWindow->display();
 }
 
 void CleanupPointers()
 {
+	NumptyBehavior::DeletePointer(m_GUI);
+	m_GUI = nullptr;
 	NumptyBehavior::DeletePointer(m_Navigation);
 	m_Navigation = nullptr;
 	NumptyBehavior::DeletePointer(m_RenderWindow);

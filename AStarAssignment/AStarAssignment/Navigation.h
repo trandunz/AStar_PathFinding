@@ -4,7 +4,7 @@
 
 #define NODE_DIFFERENCE 10
 #define SIZE 20
-#define DIAGONAL false
+#define DIAGONAL true
 
 #include "node.h"
 
@@ -47,6 +47,9 @@ public:
 
 	void CleanupContainers();
 
+	void SetShortestPathGreen();
+
+	bool m_bEraser = true;
 protected:
 	inline int CalculateHValue(Vector2 _node, Vector2 _destination)
 	{
@@ -83,10 +86,7 @@ protected:
 		{
 			return (true);
 		}
-		else
-		{
-			return (false);
-		}
+		return (false);
 	}
 
 	inline void PlaceDestination(int _i, int _j)
@@ -108,12 +108,12 @@ protected:
 	}
 
 	Node m_Nodes[SIZE][SIZE]{};
-	std::stack<Vector2> m_Path;
+	std::queue<Vector2> m_Path;
+	std::vector< std::queue<Vector2>> m_Paths;
 	sf::RectangleShape m_Shapes[SIZE][SIZE];
 	bool m_ClosedList[SIZE][SIZE];
 
 	bool m_bDebug = false;
-	bool m_bEraser = false;
 
 	sf::Font m_Font;
 	sf::RenderWindow* m_RenderWindow = nullptr;

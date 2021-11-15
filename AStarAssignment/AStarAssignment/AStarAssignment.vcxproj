@@ -135,14 +135,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CButtons.cpp" />
+    <ClCompile Include="CInputField.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Navigation.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="RichText.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CButtons.h" />
+    <ClInclude Include="CInputField.h" />
+    <ClInclude Include="GUI.h" />
     <ClInclude Include="Navigation.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NumptyBehavior.h" />
+    <ClInclude Include="RichText.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
