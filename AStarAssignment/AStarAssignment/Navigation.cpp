@@ -65,6 +65,10 @@ void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 		{
 			m_bEraser = !m_bEraser;
 		}
+		else if (_event->key.code == sf::Keyboard::F2)
+		{
+			m_bOptimizeCorners = !m_bOptimizeCorners;
+		}
 	}
 	else if (_event->type == sf::Event::MouseButtonPressed)
 	{
@@ -247,7 +251,7 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 			CalculateNeighbors(i, j, 0, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 0, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			
-			if (DIAGONAL)
+			if (m_bOptimizeCorners)
 			{
 				if (!IsBlocked(std::make_pair(i - 1, j)) || !IsBlocked(std::make_pair(i, j - 1)))
 				{
@@ -262,6 +266,25 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 					CalculateNeighbors(i, j, -1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 				}
 				if (!IsBlocked(std::make_pair(i + 1, j)) || !IsBlocked(std::make_pair(i, j + 1)))
+				{
+					CalculateNeighbors(i, j, 1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
+			}
+			else
+			{
+				if (!IsBlocked(std::make_pair(i - 1, j)) && !IsBlocked(std::make_pair(i, j - 1)))
+				{
+					CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
+				if (!IsBlocked(std::make_pair(i + 1, j)) && !IsBlocked(std::make_pair(i, j - 1)))
+				{
+					CalculateNeighbors(i, j, 1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
+				if (!IsBlocked(std::make_pair(i - 1, j)) && !IsBlocked(std::make_pair(i, j + 1)))
+				{
+					CalculateNeighbors(i, j, -1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
+				}
+				if (!IsBlocked(std::make_pair(i + 1, j)) && !IsBlocked(std::make_pair(i, j + 1)))
 				{
 					CalculateNeighbors(i, j, 1, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 				}
@@ -389,7 +412,7 @@ void Navigation::CleanupContainers()
 
 void Navigation::SetShortestPathGreen()
 {
-	int size = INT_MAX;
+	size_t size = INT_MAX;
 	for (auto& item : m_Paths)
 	{
 		if (item.size() < size)

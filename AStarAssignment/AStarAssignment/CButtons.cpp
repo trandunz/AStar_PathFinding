@@ -371,7 +371,7 @@ void CButtons::SetFontSize(unsigned int _size)
 /// Returns The Height Of The Buttons Sprite.
 /// </summary>
 /// <returns></returns>
-int CButtons::GetHeight()
+float CButtons::GetHeight()
 {
 	return Sprite.getGlobalBounds().height;
 }
@@ -380,7 +380,7 @@ int CButtons::GetHeight()
 /// Returns The Width Of The Buttons Sprite.
 /// </summary>
 /// <returns></returns>
-int CButtons::GetWidth()
+float CButtons::GetWidth()
 {
 	return Sprite.getGlobalBounds().width;
 }

@@ -19,6 +19,7 @@ private:
 	std::vector<sf::RectangleShape> m_NavigationShapeElements;
 	Navigation* m_AStarAgent = nullptr;
 	sfe::RichText m_ObsticleText;
+	sfe::RichText m_OptimizeCornersText;
 	sf::RenderWindow* m_RenderWindow = nullptr;
 	sf::View* m_UIView = nullptr;
 	sf::View* m_WorldView = nullptr;

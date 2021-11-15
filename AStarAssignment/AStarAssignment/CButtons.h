@@ -80,8 +80,8 @@ public:
 		return m_ClickTexture;
 	}
 
-	int GetHeight();
-	int GetWidth();
+	float GetHeight();
+	float GetWidth();
 
 	inline void SetSpritePos(sf::Vector2f _pos) { Sprite.setPosition(_pos); };
 	inline void SetSpritePos(float _x, float _y) { Sprite.setPosition(_x, _y); };

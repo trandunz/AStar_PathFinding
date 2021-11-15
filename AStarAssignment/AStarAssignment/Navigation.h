@@ -50,6 +50,7 @@ public:
 	void SetShortestPathGreen();
 
 	bool m_bEraser = true;
+	bool m_bOptimizeCorners = false;
 protected:
 	inline int CalculateHValue(Vector2 _node, Vector2 _destination)
 	{
