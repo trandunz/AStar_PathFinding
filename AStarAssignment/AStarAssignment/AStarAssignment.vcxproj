@@ -140,7 +140,6 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Navigation.cpp" />
-    <ClCompile Include="Node.cpp" />
     <ClCompile Include="RichText.cpp" />
   </ItemGroup>
   <ItemGroup>

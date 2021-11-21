@@ -1,3 +1,17 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) Media Design School
+//
+// File Name : Main.cpp
+// Description : Main Implementation file for BFS/DFS Search On An Undirected Graph.
+// Author : William Inman
+// Mail : william.inman@mds.ac.nz
+//
+
 #include "CGraph.h"
 
 std::string RemoveLastChar(std::string _string);
@@ -19,6 +33,9 @@ std::string m_InputString = "";
 int m_EdgeCount = 0;
 std::vector<NumptyBehavior::Edge> m_Edges;
 
+/// <summary>
+/// Main Implementation Function For BFS/DFS
+/// </summary>
 int main()
 {
 	GrabNodes();
@@ -32,11 +49,17 @@ int main()
 	std::cout << "The BFS sequence in the graph - ";
 	BFS();
 	std::cout << std::endl;
+
+	/// Halts Program To See Results When Running In Release Build
 	_getch();
 
+	// Main Returns 0
 	return NULL;
 }
 
+/// <summary>
+/// Removes The Last Character From The Given String
+/// </summary>
 std::string RemoveLastChar(std::string _string)
 {
 	// String Is Empty Check
@@ -49,6 +72,9 @@ std::string RemoveLastChar(std::string _string)
 	return _string.std::string::substr(0, _string.length() - 1);
 }
 
+/// <summary>
+/// Grabs The Edge Values Via The _getch Function And Adds Them To The m_EdgeInputs Vector
+/// </summary>
 void GrabEdgeValues()
 {
 	m_Input = 0;
@@ -82,6 +108,10 @@ void GrabEdgeValues()
 	}
 }
 
+/// <summary>
+/// Grabs The Node Values Via The _getch Function And Adds Them To The m_Nodes Vector
+/// </summary>
+/// <param name="_endl"></param>
 void GrabNodes()
 {
 	m_Input = 0;
@@ -120,6 +150,10 @@ void GrabNodes()
 	std::cout << std::endl;
 }
 
+/// <summary>
+/// Grabs The Edges Count Value Via The _getch Function And Assigns It To m_EdgeCount
+/// </summary>
+/// <returns></returns>
 void GrabEdgeCount() 
 {
 	m_Input = 0;
@@ -155,6 +189,9 @@ void GrabEdgeCount()
 	std::cout << std::endl;
 }
 
+/// <summary>
+/// Prints All The Nodes
+/// </summary>
 void PrintNodes(bool _endl)
 {
 	std::cout << "Nodes: ";
@@ -176,11 +213,17 @@ void PrintNodes(bool _endl)
 	}
 }
 
+/// <summary>
+/// Prints The Number Of Edges
+/// </summary>
 void PrintNumberOfEdges()
 {
 	std::cout << "Number Of Edges: " << m_EdgeCount << std::endl;
 }
 
+/// <summary>
+/// Prints The Edge Values
+/// </summary>
 void PrintEdges()
 {
 	int it = 1;
@@ -191,6 +234,9 @@ void PrintEdges()
 	}
 }
 
+/// <summary>
+/// Processes m_EdgeInputs Into The Graph
+/// </summary>
 void ProcessEdgeInputsIntoGraph()
 {
 	m_Edges.clear();
@@ -200,6 +246,9 @@ void ProcessEdgeInputsIntoGraph()
 	}
 }
 
+/// <summary>
+/// Returns A Bol Based On If A Given Input Is Of The Initial Nodes
+/// </summary>
 bool IsInputInNodes()
 {
 	for (auto& item : m_Nodes)
@@ -212,6 +261,9 @@ bool IsInputInNodes()
 	return false;
 }
 
+/// <summary>
+/// Handles The Recursive BFS For The Graph Created
+/// </summary>
 void BFS()
 {
 	CGraph graph(m_Edges, (int)m_Nodes.size());
@@ -231,6 +283,9 @@ void BFS()
 	}
 }
 
+/// <summary>
+/// Handles The Recursive DFS For The Graph Created
+/// </summary>
 void DFS()
 {
 	CGraph graph(m_Edges, (int)m_Nodes.size());

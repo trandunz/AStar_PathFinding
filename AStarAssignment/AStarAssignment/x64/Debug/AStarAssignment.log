@@ -1,9 +1,9 @@
 ﻿  CButtons.cpp
   CInputField.cpp
   GUI.cpp
-  main.cpp
   Navigation.cpp
-  Node.cpp
   RichText.cpp
+  main.cpp
   Generating Code...
+  LINK : C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\x64\Debug\AStarAssignment.exe not found or not built by the last incremental link; performing full link
   AStarAssignment.vcxproj -> C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\x64\Debug\AStarAssignment.exe

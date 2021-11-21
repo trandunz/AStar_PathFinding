@@ -1,8 +1,11 @@
-﻿  main.cpp
+﻿  CButtons.cpp
+  CInputField.cpp
+  GUI.cpp
+  main.cpp
   Navigation.cpp
-  Node.cpp
+  RichText.cpp
   Generating code
   Previous IPDB not found, fall back to full compilation.
-  All 337 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 743 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   AStarAssignment.vcxproj -> C:\Users\trand\Documents\GITHUB\AStar_PathFinding\AStarAssignment\x64\Release\AStarAssignment.exe

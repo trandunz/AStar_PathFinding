@@ -1,4 +1,16 @@
-#include <iostream>
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) Media Design School
+//
+// File Name : Main.cpp
+// Description : Main Implementation file for AStarPathfinding.
+// Author : William Inman
+// Mail : william.inman@mds.ac.nz
+//
 
 #include "Navigation.h"
 #include "GUI.h"
@@ -21,6 +33,10 @@ GUI* m_GUI = nullptr;
 
 sf::Vector2f m_MousePos;
 
+/// <summary>
+/// Main Function For The AStarPathfinding Program
+/// </summary>
+/// <returns></returns>
 int main()
 {
 	CreateWindow(sf::Style::Close + sf::Style::Titlebar);
@@ -34,6 +50,10 @@ int main()
 	return NULL;
 }
 
+/// <summary>
+/// Creates A RenderWindow With The Specified Style (Close Button enabled?, Title enabled?, e.t.c)
+/// </summary>
+/// <param name="_style"></param>
 void CreateWindow(sf::Uint32 _style)
 {
 	if (m_RenderWindow == nullptr)
@@ -63,6 +83,10 @@ void CreateWindow(sf::Uint32 _style)
 	m_RenderWindow->setView(m_WorldView);
 }
 
+/// <summary>
+/// Start Function (Should Be Called On Start)
+/// Creates A New Navigation Instance And Initializes The GUI
+/// </summary>
 void Start()
 {
 	m_Navigation = new Navigation(m_RenderWindow);
@@ -74,6 +98,10 @@ void Start()
 	m_RenderWindow->setView(m_WorldView);
 }
 
+/// <summary>
+/// RUNS EVERY FRAME
+/// Main Update Loop
+/// </summary>
 void Update()
 {
 	while (m_RenderWindow->isOpen())
@@ -87,6 +115,10 @@ void Update()
 	}
 }
 
+/// <summary>
+/// Polled Update Loop
+/// Handles Inputs Such As Mouse Up And Mouse Down
+/// </summary>
 void PolledUpdate()
 {
 	while (m_RenderWindow->pollEvent(*m_Event))
@@ -101,6 +133,10 @@ void PolledUpdate()
 	}
 }
 
+/// <summary>
+/// Main Render Function
+/// Handles Rendering Everything To The sf::RenderWindow
+/// </summary>
 void Render()
 {
 	m_RenderWindow->clear();
@@ -110,6 +146,9 @@ void Render()
 	m_RenderWindow->display();
 }
 
+/// <summary>
+/// Cleans Up All Pointers And Deletes Them If They Point To A Memory Location
+/// </summary>
 void CleanupPointers()
 {
 	NumptyBehavior::DeletePointer(m_GUI);

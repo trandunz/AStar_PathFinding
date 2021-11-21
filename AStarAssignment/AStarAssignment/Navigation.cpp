@@ -1,5 +1,24 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) Media Design School
+//
+// File Name : Navigation.cpp
+// Description : Navigation Implementation file.
+// Author : William Inman
+// Mail : william.inman@mds.ac.nz
+//
+
 #include "Navigation.h"
 
+/// <summary>
+/// Navigation Constructor
+/// Initializes The Param, Loads The Font ANDYB.TTF, Initializes The Closes List (False)
+/// </summary>
+/// <param name="_renderWindow"></param>
 Navigation::Navigation(sf::RenderWindow* _renderWindow)
 {
 	m_RenderWindow = _renderWindow;
@@ -13,6 +32,9 @@ Navigation::Navigation(sf::RenderWindow* _renderWindow)
 	}
 }
 
+/// <summary>
+/// Navigation Destructor
+/// </summary>
 Navigation::~Navigation()
 {
 	CleanupContainers();
@@ -21,6 +43,10 @@ Navigation::~Navigation()
 	m_RenderWindow = nullptr;
 }
 
+/// <summary>
+/// Navigation Start
+/// Intializes The Nodes And Sf::Shapes
+/// </summary>
 void Navigation::Start()
 {
 	Initnodes();
@@ -34,6 +60,12 @@ void Navigation::Start()
 	}
 }
 
+/// <summary>
+/// CALLED EVERY FRAME
+/// Main Update Function For Navigation
+/// Also Handles Changing Tiles At Runtime
+/// </summary>
+/// <param name="_mouserPos"></param>
 void Navigation::Update(sf::Vector2f _mouserPos)
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -53,6 +85,11 @@ void Navigation::Update(sf::Vector2f _mouserPos)
 	UpdateText();
 }
 
+/// <summary>
+/// Polled Update For Navigation Controlls
+/// </summary>
+/// <param name="_event"></param>
+/// <param name="_mouserPos"></param>
 void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 {
 	if (_event->type == sf::Event::KeyPressed)
@@ -88,6 +125,10 @@ void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 	}
 }
 
+/// <summary>
+/// CALLED EVERY FRAME
+/// Renders The Navigation Information To The RenderWindow.
+/// </summary>
 void Navigation::Render()
 {
 
@@ -109,6 +150,12 @@ void Navigation::Render()
 
 }
 
+/// <summary>
+/// Handles Rendering The Specified Shapes At Locaton m_Shapes[_i][_j]
+/// Also Handles The Colours For Each Node Depending On Their Assigned Type
+/// </summary>
+/// <param name="_i"></param>
+/// <param name="_j"></param>
 void Navigation::RenderShapes(int _i, int _j)
 {
 	SetNodeColourToType(_i, _j);
@@ -116,6 +163,9 @@ void Navigation::RenderShapes(int _i, int _j)
 	m_RenderWindow->draw(m_Shapes[_i][_j]);
 }
 
+/// <summary>
+/// Handles Rendering The Debug Text To The Screen
+/// </summary>
 void Navigation::RenderText()
 {
 	for (int i = 0; i < SIZE; i++)
@@ -132,6 +182,9 @@ void Navigation::RenderText()
 	}
 }
 
+/// <summary>
+/// Handles Updating The Debug Text To The Correct Values
+/// </summary>
 void Navigation::UpdateText()
 {
 	for (int i = 0; i < SIZE; i++)
@@ -145,6 +198,9 @@ void Navigation::UpdateText()
 	}
 }
 
+/// <summary>
+/// Initalizes The Nodes For AStar Navigation
+/// </summary>
 void Navigation::Initnodes()
 {
 	for (int i = 0; i < SIZE; i++) 
@@ -160,6 +216,15 @@ void Navigation::Initnodes()
 	}
 }
 
+/// <summary>
+/// Initalizes The Shape At Location m_Shapes[_i][_j].
+/// Size : 10,10
+/// Fill Colour : Transp
+/// Outline Thick : 0.1
+/// Outline Colour : Green
+/// </summary>
+/// <param name="_i"></param>
+/// <param name="_j"></param>
 void Navigation::InitShapes(int _i, int _j)
 {
 	m_Shapes[_i][_j] = sf::RectangleShape(sf::Vector2f(10, 10));
@@ -183,6 +248,10 @@ void Navigation::InitShapes(int _i, int _j)
 	m_Nodes[_i][_j].m_HText.setPosition(m_Shapes[_i][_j].getPosition().x + 1.0f, m_Shapes[_i][_j].getPosition().y + 1.5f);
 }
 
+/// <summary>
+/// Calculates A Path To The Specified Destination Node
+/// </summary>
+/// <param name="_destination"></param>
 void Navigation::CalculatePath(Node& _destination)
 {
 	int i = _destination.m_Position.first;
@@ -209,6 +278,11 @@ void Navigation::CalculatePath(Node& _destination)
 	m_Paths.push_back(tempPath);
 }
 
+/// <summary>
+/// Handles AStar Traversal Between The Two Specified Nodes.
+/// </summary>
+/// <param name="_source"></param>
+/// <param name="_destination"></param>
 void Navigation::AStarTraversal(Node& _source, Node& _destination)
 {
 	if (m_SourceNode != nullptr && m_DestinationNode != nullptr)
@@ -293,6 +367,17 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 	}
 }
 
+/// <summary>
+/// Checks The Neighbor To The Specified Node At Location m_Nodes[_i + _offsetI][_j + _offsetJ]
+/// </summary>
+/// <param name="_i"></param>
+/// <param name="_j"></param>
+/// <param name="_offsetI"></param>
+/// <param name="_offsetJ"></param>
+/// <param name="_destination"></param>
+/// <param name="_reachedDestination"></param>
+/// <param name="_openList"></param>
+/// <param name="m_ClosedList"></param>
 void Navigation::CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, Node& _destination, bool& _reachedDestination, std::set<std::pair<int, std::pair<int, int>>>& _openList, bool m_ClosedList[SIZE][SIZE])
 {
 	int newG = 0;
@@ -331,11 +416,20 @@ void Navigation::CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, 
 	}
 }
 
+/// <summary>
+/// Toggles m_bDebug
+/// Allows You To See The Values For Each Node
+/// </summary>
 void Navigation::ToggleDebug()
 {
 	m_bDebug = !m_bDebug;
 }
 
+/// <summary>
+/// Return A bool Based On If The Given sf::Vector2f  Position Is Over Any m_Shapes
+/// </summary>
+/// <param name="_mousePos"></param>
+/// <returns></returns>
 bool Navigation::IsMouseOverTile(sf::Vector2f _mousePos)
 {
 	for (int i = 0; i < SIZE; i++)
@@ -351,6 +445,11 @@ bool Navigation::IsMouseOverTile(sf::Vector2f _mousePos)
 	return false;
 }
 
+/// <summary>
+/// Returns The Location Of The Node The Passed In Position Is Over
+/// </summary>
+/// <param name="_mousePos"></param>
+/// <returns></returns>
 sf::Vector2i Navigation::GetMousedOverTile(sf::Vector2f _mousePos)
 {
 	for (int i = 0; i < SIZE; i++)
@@ -366,6 +465,11 @@ sf::Vector2i Navigation::GetMousedOverTile(sf::Vector2f _mousePos)
 	return sf::Vector2i(0,0);
 }
 
+/// <summary>
+/// Changes The Tile Type At Location m_Nodes[_index.x][_index.y] To Eather Empty Or An Obsticle
+/// (Toggles)
+/// </summary>
+/// <param name="_index"></param>
 void Navigation::ChangeTileType(sf::Vector2i _index)
 {
 	m_Nodes[_index.x][_index.y].m_bObstical = !m_bEraser;
@@ -379,6 +483,9 @@ void Navigation::ChangeTileType(sf::Vector2i _index)
 	SetNodeColourToType(_index.x, _index.y);
 }
 
+/// <summary>
+/// Cleans Up All The Pointers And Memory For The Navigation
+/// </summary>
 void Navigation::CleanupContainers()
 {
 	// Path Stack Cleanup
@@ -410,6 +517,9 @@ void Navigation::CleanupContainers()
 	}
 }
 
+/// <summary>
+/// Searches All The Calculated Paths And Finds The Shortest One Before Colouring It Green
+/// </summary>
 void Navigation::SetShortestPathGreen()
 {
 	size_t size = INT_MAX;
@@ -446,6 +556,11 @@ void Navigation::SetShortestPathGreen()
 	m_Paths.clear();
 }
 
+/// <summary>
+/// Sets The Colour Of The Specified Node At Location m_Nodes[_i][_j] To Its Appropriate Type
+/// </summary>
+/// <param name="_i"></param>
+/// <param name="_j"></param>
 void Navigation::SetNodeColourToType(int _i, int _j)
 {
 	if (m_Nodes[_i][_j].m_bSource)
@@ -466,6 +581,10 @@ void Navigation::SetNodeColourToType(int _i, int _j)
 	}
 }
 
+/// <summary>
+/// Returns The Source Node
+/// </summary>
+/// <returns></returns>
 Node& Navigation::GetSourceNode()
 {
 	for (int i = 0; i < SIZE; i++)
@@ -481,6 +600,10 @@ Node& Navigation::GetSourceNode()
 	return m_Nodes[0][0];
 }
 
+/// <summary>
+/// Returns The Destination Node
+/// </summary>
+/// <returns></returns>
 Node& Navigation::GetDestinationNode()
 {
 	for (int i = 0; i < SIZE; i++)
