@@ -107,9 +107,9 @@ void Update()
 	while (m_RenderWindow->isOpen())
 	{
 		m_MousePos = m_RenderWindow->mapPixelToCoords(sf::Mouse::getPosition(*m_RenderWindow), m_WorldView);
-		m_Navigation->Update(m_MousePos);
-
 		PolledUpdate();
+
+		m_Navigation->Update(m_MousePos);
 
 		Render();
 	}
@@ -140,9 +140,12 @@ void PolledUpdate()
 void Render()
 {
 	m_RenderWindow->clear();
-	m_Navigation->Render();
+	//
 
+	m_Navigation->Render();
 	m_GUI->NavigationUI();
+	
+	//
 	m_RenderWindow->display();
 }
 
@@ -155,6 +158,8 @@ void CleanupPointers()
 	m_GUI = nullptr;
 	NumptyBehavior::DeletePointer(m_Navigation);
 	m_Navigation = nullptr;
+	NumptyBehavior::DeletePointer(m_Event);
+	m_Event = nullptr;
 	NumptyBehavior::DeletePointer(m_RenderWindow);
 	m_RenderWindow = nullptr;
 }

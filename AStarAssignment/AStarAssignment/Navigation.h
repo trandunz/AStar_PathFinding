@@ -35,6 +35,8 @@ public:
 
 	void Initnodes();
 	void InitShapes(int _i, int _j);
+	void InitText(int _i, int _j);
+	void InitSourceNode(Node& _source, int& _i, int& _j);
 
 	void UpdateText();
 
@@ -122,9 +124,34 @@ protected:
 		}
 	}
 
+	inline void CalculateNewFValue(int _i, int _j, int _offsetI, int _offsetJ, Node& _destination, int& _tempG, int& _tempH, int& _tempF)
+	{
+		_tempG = m_Nodes[_i][_j].G + 1;
+		_tempH = CalculateHValue(std::make_pair(_offsetI + _i, _offsetJ + _j), _destination.m_Position);
+		_tempF = _tempG + _tempH;
+	}
+
+	inline void AssignParentValuesToNode(int& _i, int& _j)
+	{
+		int temp_i = m_Nodes[_i][_j].m_Parent.first;
+		int temp_j = m_Nodes[_i][_j].m_Parent.second;
+		_i = temp_i;
+		_j = temp_j;
+	}
+
+	inline void MarkPathAsTraversed()
+	{
+		while (!m_Path.empty())
+		{
+			Vector2 currentNode = m_Path.front();
+			m_Path.pop();
+			m_Nodes[currentNode.first][currentNode.second].m_bTraversed = true;
+		}
+	}
+
 	Node m_Nodes[SIZE][SIZE]{};
 	std::queue<Vector2> m_Path;
-	std::vector< std::queue<Vector2>> m_Paths;
+	std::vector<std::queue<Vector2>> m_Paths;
 	sf::RectangleShape m_Shapes[SIZE][SIZE];
 	bool m_ClosedList[SIZE][SIZE];
 

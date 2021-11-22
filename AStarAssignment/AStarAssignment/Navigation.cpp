@@ -38,6 +38,18 @@ Navigation::Navigation(sf::RenderWindow* _renderWindow)
 Navigation::~Navigation()
 {
 	CleanupContainers();
+	for (auto& item : m_Paths)
+	{
+		while (!item.empty())
+		{
+			item.pop();
+		}
+	}
+	while (!m_Path.empty())
+	{
+		m_Path.pop();
+	}
+
 	m_SourceNode = nullptr;
 	m_DestinationNode = nullptr;
 	m_RenderWindow = nullptr;
@@ -131,7 +143,6 @@ void Navigation::PolledUpdate(sf::Event* _event, sf::Vector2f _mouserPos)
 /// </summary>
 void Navigation::Render()
 {
-
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int j = 0; j < SIZE; j++)
@@ -146,8 +157,6 @@ void Navigation::Render()
 	{
 		RenderText();
 	}
-
-
 }
 
 /// <summary>
@@ -227,7 +236,7 @@ void Navigation::Initnodes()
 /// <param name="_j"></param>
 void Navigation::InitShapes(int _i, int _j)
 {
-	m_Shapes[_i][_j] = sf::RectangleShape(sf::Vector2f(10, 10));
+	m_Shapes[_i][_j] = sf::RectangleShape();
 	m_Shapes[_i][_j].setSize(sf::Vector2f(10.0f, 10.0f));
 	m_Shapes[_i][_j].setFillColor(sf::Color::Transparent);
 	m_Shapes[_i][_j].setOutlineThickness(0.1f);
@@ -235,17 +244,37 @@ void Navigation::InitShapes(int _i, int _j)
 	m_Shapes[_i][_j].setOrigin(5.0f, 5.0f);
 	m_Shapes[_i][_j].setPosition((float)m_Nodes[_i][_j].m_Position.first * NODE_DIFFERENCE, (float)m_Nodes[_i][_j].m_Position.second * NODE_DIFFERENCE);
 
+	InitText(_i, _j);
+}
+
+void Navigation::InitText(int _i, int _j)
+{
 	m_Nodes[_i][_j].m_FText.setScale(0.12f, 0.12f);
 	m_Nodes[_i][_j].m_GText.setScale(0.12f, 0.12f);
 	m_Nodes[_i][_j].m_HText.setScale(0.12f, 0.12f);
 
-	m_Nodes[_i][_j].m_FText.setOrigin(m_Nodes[_i][_j].m_FText.getGlobalBounds().width/2 , m_Nodes[_i][_j].m_FText.getGlobalBounds().height / 2);
+	m_Nodes[_i][_j].m_FText.setOrigin(m_Nodes[_i][_j].m_FText.getGlobalBounds().width / 2, m_Nodes[_i][_j].m_FText.getGlobalBounds().height / 2);
 	m_Nodes[_i][_j].m_GText.setOrigin(m_Nodes[_i][_j].m_GText.getGlobalBounds().width / 2, m_Nodes[_i][_j].m_GText.getGlobalBounds().height / 2);
 	m_Nodes[_i][_j].m_HText.setOrigin(m_Nodes[_i][_j].m_HText.getGlobalBounds().width / 2, m_Nodes[_i][_j].m_HText.getGlobalBounds().height / 2);
 
 	m_Nodes[_i][_j].m_FText.setPosition(m_Shapes[_i][_j].getPosition().x + 1.0f, m_Shapes[_i][_j].getPosition().y - 3.5f);
 	m_Nodes[_i][_j].m_GText.setPosition(m_Shapes[_i][_j].getPosition().x - 3.5f, m_Shapes[_i][_j].getPosition().y + 1.5f);
 	m_Nodes[_i][_j].m_HText.setPosition(m_Shapes[_i][_j].getPosition().x + 1.0f, m_Shapes[_i][_j].getPosition().y + 1.5f);
+}
+
+void Navigation::InitSourceNode(Node& _source, int& _i, int& _j)
+{
+	m_Nodes[_source.m_Position.first][_source.m_Position.second].m_Parent = _source.m_Parent;
+	_i = _source.m_Position.first;
+	_j = _source.m_Position.second;
+
+	m_Nodes[_i][_j].F = 0;
+	m_Nodes[_i][_j].G = 0;
+	m_Nodes[_i][_j].H = 0;
+	m_Nodes[_i][_j].m_Parent.first = _i;
+	m_Nodes[_i][_j].m_Parent.second = _j;
+	m_Nodes[_i][_j].m_bSource = true;
+	m_Nodes[_i][_j].m_bDestination = false;
 }
 
 /// <summary>
@@ -260,20 +289,12 @@ void Navigation::CalculatePath(Node& _destination)
 	while (!(m_Nodes[i][j].m_Parent.first == i && m_Nodes[i][j].m_Parent.second == j)) 
 	{
 		m_Path.push(std::make_pair(i, j));
-		int temp_i = m_Nodes[i][j].m_Parent.first;
-		int temp_j = m_Nodes[i][j].m_Parent.second;
-		i = temp_i;
-		j = temp_j;
+		AssignParentValuesToNode(i, j);
 	}
 
 	m_Path.push(std::make_pair(i, j));
 	std::queue<Vector2> tempPath = m_Path;
-	while (!m_Path.empty())
-	{
-		Vector2 BestMove = m_Path.front();
-		m_Path.pop();
-		m_Nodes[BestMove.first][BestMove.second].m_bTraversed = true;
-	}
+	MarkPathAsTraversed();
 
 	m_Paths.push_back(tempPath);
 }
@@ -285,30 +306,20 @@ void Navigation::CalculatePath(Node& _destination)
 /// <param name="_destination"></param>
 void Navigation::AStarTraversal(Node& _source, Node& _destination)
 {
+	// Source && Destination ? 
 	if (m_SourceNode != nullptr && m_DestinationNode != nullptr)
 	{
 		CleanupContainers();
+
 		std::set<std::pair<int, Vector2>> m_OpenList;
-
-		bool reachedDestination = false;
-		int i = 0;
-		int j = 0;
-
-		m_Nodes[_source.m_Position.first][_source.m_Position.second].m_Parent = _source.m_Parent;
-		i = _source.m_Position.first;
-		j = _source.m_Position.second;
-
-		m_Nodes[i][j].F = 0;
-		m_Nodes[i][j].G = 0;
-		m_Nodes[i][j].H = 0;
-		m_Nodes[i][j].m_Parent.first = i;
-		m_Nodes[i][j].m_Parent.second = j;
-		m_Nodes[i][j].m_bSource = true;
-		m_Nodes[i][j].m_bDestination = false;
+		bool reachedDestination(false);
+		int i(0);
+		int j(0);
+		InitSourceNode(_source, i, j);
 
 		m_OpenList.insert(std::make_pair(0, std::make_pair(i, j)));
-
 		
+		// Loop Until All Paths Found
 		while (!m_OpenList.empty())
 		{
 			std::pair<int, Vector2> currentNode = *m_OpenList.begin();
@@ -325,8 +336,10 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 			CalculateNeighbors(i, j, 0, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			CalculateNeighbors(i, j, 0, 1, _destination, reachedDestination, m_OpenList, m_ClosedList);
 			
+			// m_bOptimizeCorners ? Cut Corners : Avoid Cutting Corners
 			if (m_bOptimizeCorners)
 			{
+				//								Notice The OR "||"
 				if (!IsBlocked(std::make_pair(i - 1, j)) || !IsBlocked(std::make_pair(i, j - 1)))
 				{
 					CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
@@ -346,6 +359,7 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 			}
 			else
 			{
+				//                             Notice The AND "&&"
 				if (!IsBlocked(std::make_pair(i - 1, j)) && !IsBlocked(std::make_pair(i, j - 1)))
 				{
 					CalculateNeighbors(i, j, -1, -1, _destination, reachedDestination, m_OpenList, m_ClosedList);
@@ -380,12 +394,10 @@ void Navigation::AStarTraversal(Node& _source, Node& _destination)
 /// <param name="m_ClosedList"></param>
 void Navigation::CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, Node& _destination, bool& _reachedDestination, std::set<std::pair<int, std::pair<int, int>>>& _openList, bool m_ClosedList[SIZE][SIZE])
 {
-	int newG = 0;
-	int newF = 0;
-	int newH = 0;
-
+	// If The Neighbor Is Valid
 	if (IsValid(_i + _offsetI, _j + _offsetJ) == true)
 	{
+		// Return If Its A Destination
 		if (IsDestination(std::make_pair(_i + _offsetI, _j + _offsetJ), _destination.m_Position) == true)
 		{
 			m_Nodes[_i + _offsetI][_j + _offsetJ].m_Parent.first = _i;
@@ -395,23 +407,27 @@ void Navigation::CalculateNeighbors(int _i, int _j, int _offsetI, int _offsetJ, 
 			m_Nodes[_i + _offsetI][_j + _offsetJ].m_bDestination = true;
 			return;
 		}
+		// Else If Its Not Blocked, Add It To The Open List
 		else if (m_ClosedList[_i + _offsetI][_j + _offsetJ] == false && !IsBlocked(std::make_pair(_i + _offsetI, _j + _offsetJ)) == true)
 		{
-			newG = m_Nodes[_i][_j].G + 1;
-			newH = CalculateHValue(std::make_pair(_offsetI + _i, _offsetJ+ _j), _destination.m_Position);
-			newF = newG + newH;
+			int tempG(0);
+			int tempH(0);
+			int tempF(0);
 
-			if (m_Nodes[_offsetI + _i][_j + _offsetJ].F == INT_MAX || m_Nodes[_i + _offsetI][_j + _offsetJ].F > newF)
+			CalculateNewFValue(_i, _j, _offsetI, _offsetJ, _destination, tempG, tempH, tempF);
+
+			if (m_Nodes[_offsetI + _i][_j + _offsetJ].F == INT_MAX || m_Nodes[_i + _offsetI][_j + _offsetJ].F > tempF)
 			{
-				_openList.insert(std::make_pair(newF, std::make_pair(_i + _offsetI, _j + _offsetJ)));
+				_openList.insert(std::make_pair(tempF, std::make_pair(_i + _offsetI, _j + _offsetJ)));
 
-				m_Nodes[_i + _offsetI][_j + _offsetJ].F = newF;
-				m_Nodes[_i + _offsetI][_j + _offsetJ].G = newG;
-				m_Nodes[_i + _offsetI][_j + _offsetJ].H = newH;
+				m_Nodes[_i + _offsetI][_j + _offsetJ].F = tempF;
+				m_Nodes[_i + _offsetI][_j + _offsetJ].G = tempG;
+				m_Nodes[_i + _offsetI][_j + _offsetJ].H = tempH;
 				m_Nodes[_i + _offsetI][_j + _offsetJ].m_Parent.first = _i;
 				m_Nodes[_i + _offsetI][_j + _offsetJ].m_Parent.second = _j;
 			}
 		}
+		// Else Return
 		return;
 	}
 }
